@@ -3,9 +3,9 @@
 # Written by Jiefeng Li (jeff.lee.sjtu@gmail.com)
 # -----------------------------------------------------
 
-import time
-while 1:
-    time.sleep(2)
+# import time
+# while 1:
+#     time.sleep(2)
 
 import torch
 import torch.utils.data
@@ -154,6 +154,8 @@ def main():
     if opt.dataset == 'coco':
         train_dataset = coco.Mscoco(train=True)
         val_dataset = coco.Mscoco(train=False)
+    train_dataset = coco.Mscoco(train=True)
+    val_dataset = coco.Mscoco(train=False)
 
     train_loader = torch.utils.data.DataLoader(
         train_dataset, batch_size=opt.trainBatch, shuffle=True, num_workers=opt.nThreads, pin_memory=True)

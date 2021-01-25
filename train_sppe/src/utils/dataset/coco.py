@@ -26,17 +26,20 @@ class Mscoco(data.Dataset):
         self.rot_factor = rot_factor
         self.label_type = label_type
 
-        self.nJoints_coco = 106
-        self.nJoints = 106
+        self.nJoints_coco = 21
+        self.nJoints = 21
 
-        self.accIdxs = tuple(range(1,107))
+        self.accIdxs = tuple(range(1,22))
 
+        self.flipRef = ()
+        '''
         self.flipRef = ((1, 33), (2, 32), (3, 31), (4, 30), (5, 29), (6, 28), (7, 27), (8, 26), (9, 25), (10, 24), (11, 23),
                         (12, 22), (13, 21), (14, 20), (15, 19), (16, 18),
                         (34, 47), (35, 46), (36, 45), (37, 44), (38, 43), (39, 51), (40, 50), (41, 49), (42, 48),
                         (52, 65), (53, 64), (54, 63), (55, 62), (56, 67), (57, 66), (58, 68), (59, 69), (60, 70), (61, 71),
                         (76, 77), (78, 79), (80, 81), (82, 86), (83, 85),
                         (87, 91), (97, 98), (93, 94), (96, 95), (88, 90), (99, 101), (102, 104), (105, 106))
+        '''
 
         # create train/val split
         with h5py.File('../data/coco/annot_coco.h5', 'r') as annot:
@@ -66,7 +69,7 @@ class Mscoco(data.Dataset):
 
         imgname = reduce(lambda x, y: x + y,
                          map(lambda x: chr(int(x)), imgname))
-        img_path = os.path.join(self.img_folder, imgname)
+        img_path = os.path.join(self.img_folder, imgname.strip())
 
         metaData = generateSampleBox(img_path, bndbox, part, self.nJoints,
                                      'coco', sf, self, train=self.is_train)
